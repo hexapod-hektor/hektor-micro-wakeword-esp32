@@ -1,0 +1,85 @@
+window_step_ms: 10
+train_dir: ${HK_WORK}/trained/v3
+features:
+- features_dir: ${HK_WORK}/features/pos_main_v3
+  sampling_weight: 2.0
+  penalty_weight: 1.0
+  truth: true
+  truncation_strategy: truncate_start
+  type: mmap
+- features_dir: ${HK_WORK}/features/pos_live_v3
+  sampling_weight: 0.22222
+  penalty_weight: 3.0
+  truth: true
+  truncation_strategy: truncate_start
+  type: mmap
+- features_dir: ${HK_WORK}/features/neg_other_v3
+  sampling_weight: 3.4288
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: random
+  type: mmap
+- features_dir: ${HK_WORK}/features/neg_add_other
+  sampling_weight: 0.5712
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: random
+  type: mmap
+- features_dir: ${HK_WORK}/features/neg_piper
+  sampling_weight: 1.5
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: random
+  type: mmap
+- features_dir: ${HK_WORK}/negative_datasets/speech
+  sampling_weight: 8.0
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: random
+  type: mmap
+- features_dir: ${HK_WORK}/negative_datasets/dinner_party
+  sampling_weight: 6.0
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: random
+  type: mmap
+- features_dir: ${HK_WORK}/negative_datasets/no_speech
+  sampling_weight: 4.0
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: random
+  type: mmap
+- features_dir: ${HK_WORK}/features/room_ambient
+  sampling_weight: 0.0
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: split
+  type: mmap
+- features_dir: ${HK_WORK}/negative_datasets/dinner_party_eval_1h
+  sampling_weight: 0.0
+  penalty_weight: 1.0
+  truth: false
+  truncation_strategy: split
+  type: mmap
+training_steps:
+- 10000
+positive_class_weight:
+- 1.5
+negative_class_weight:
+- 1.0
+learning_rates:
+- 0.001
+batch_size: 128
+time_mask_max_size:
+- 5
+time_mask_count:
+- 2
+freq_mask_max_size:
+- 5
+freq_mask_count:
+- 2
+eval_step_interval: 500
+clip_duration_ms: 1500
+target_minimization: 0.5
+minimization_metric: ambient_false_positives_per_hour
+maximization_metric: average_viable_recall

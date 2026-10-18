@@ -1,0 +1,198 @@
+{
+ "replay_v1": {
+  "neg_other": 2083,
+  "neg_val": 490,
+  "neg_piper": 7599
+ },
+ "neg_diff": {
+  "same": 10172,
+  "changed": 0,
+  "added": 347,
+  "removed": 0,
+  "removed_files": []
+ },
+ "counts": {
+  "pos_main/aug-tempo/cmd": 635,
+  "pos_val/aug-tempo/cmd": 30,
+  "pos_main/tts/cmd": 192,
+  "pos_val/tts/cmd": 5,
+  "pos_main/firered/cmd": 439,
+  "pos_val/firered/cmd": 17,
+  "pos_main/robot/cmd": 2,
+  "pos_main/piper/cmd": 1174,
+  "pos_val/piper/cmd": 56,
+  "pos_main/aug-tempo/hektor": 1529,
+  "pos_main/tts/hektor": 334,
+  "pos_val/aug-tempo/hektor": 85,
+  "pos_val/tts/hektor": 14,
+  "pos_main/robot/hektor": 9,
+  "pos_main/firered/hektor": 456,
+  "pos_val/firered/hektor": 18,
+  "pos_main/piper/hektor": 1285,
+  "pos_val/piper/hektor": 64,
+  "pos_val/aug-tempo/hektore": 74,
+  "pos_main/aug-tempo/hektore": 1626,
+  "pos_main/tts/hektore": 356,
+  "pos_val/robot/hektore": 1,
+  "pos_main/robot/hektore": 11,
+  "pos_val/tts/hektore": 12,
+  "pos_val/firered/hektore": 26,
+  "pos_main/firered/hektore": 448,
+  "pos_main/piper/hektore": 1306,
+  "pos_val/piper/hektore": 70,
+  "pos_live/live/hektor": 67,
+  "pos_live/live-cmd/cmd": 3,
+  "neg_add_other/other": 347,
+  "reused:neg_other": 2083,
+  "reused:neg_val": 490,
+  "reused:neg_piper": 7599,
+  "positive_test/aug-tempo/cmd": 207,
+  "positive_test/tts/cmd": 39,
+  "positive_test/firered/cmd": 117,
+  "positive_test/robot/cmd": 1,
+  "positive_test/piper/cmd": 1000,
+  "positive_test/aug-tempo/hektor": 381,
+  "positive_test/tts/hektor": 62,
+  "positive_test/firered/hektor": 118,
+  "positive_test/piper/hektor": 1000,
+  "positive_test/aug-tempo/hektore": 390,
+  "positive_test/tts/hektore": 59,
+  "positive_test/robot/hektore": 1,
+  "positive_test/firered/hektore": 120,
+  "positive_test/piper/hektore": 1000,
+  "positive_test/live/hektor": 22,
+  "positive_test/live-cmd/cmd": 1,
+  "negative_test/tts": 248,
+  "negative_test/other": 87,
+  "negative_test/piper": 1800,
+  "negative_test/robot": 11
+ },
+ "durations": {
+  "positive_train/aug-tempo": [
+   3979,
+   0.21,
+   0.63,
+   1.64,
+   2.54
+  ],
+  "positive_train/tts": [
+   913,
+   0.51,
+   0.88,
+   1.56,
+   2.01
+  ],
+  "positive_train/firered": [
+   1404,
+   0.34,
+   1.18,
+   2.37,
+   2.48
+  ],
+  "positive_train/robot": [
+   23,
+   0.58,
+   0.86,
+   1.74,
+   1.84
+  ],
+  "positive_train/piper": [
+   3955,
+   0.36,
+   0.95,
+   2.65,
+   3.24
+  ],
+  "positive_train/live": [
+   67,
+   0.59,
+   0.74,
+   1.62,
+   1.69
+  ],
+  "positive_train/live-cmd": [
+   3,
+   1.39,
+   1.47,
+   2.0,
+   2.01
+  ],
+  "positive_test/aug-tempo": [
+   978,
+   0.32,
+   0.66,
+   1.2,
+   1.59
+  ],
+  "positive_test/tts": [
+   160,
+   0.58,
+   0.86,
+   1.46,
+   1.87
+  ],
+  "positive_test/firered": [
+   355,
+   0.3,
+   1.17,
+   2.25,
+   2.43
+  ],
+  "positive_test/robot": [
+   2,
+   0.79,
+   0.9,
+   1.0,
+   1.0
+  ],
+  "positive_test/piper": [
+   3000,
+   0.43,
+   0.79,
+   1.72,
+   1.99
+  ],
+  "positive_test/live": [
+   22,
+   0.61,
+   0.75,
+   1.61,
+   1.63
+  ],
+  "positive_test/live-cmd": [
+   1,
+   1.58,
+   1.58,
+   1.58,
+   1.58
+  ],
+  "negative_test/tts": [
+   248,
+   0.42,
+   0.74,
+   1.53,
+   1.56
+  ],
+  "negative_test/other": [
+   87,
+   0.68,
+   1.19,
+   1.88,
+   2.32
+  ],
+  "negative_test/piper": [
+   1800,
+   0.26,
+   0.72,
+   1.29,
+   1.51
+  ],
+  "negative_test/robot": [
+   11,
+   0.52,
+   0.99,
+   1.65,
+   1.66
+  ]
+ }
+}

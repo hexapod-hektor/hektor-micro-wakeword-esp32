@@ -1,0 +1,20 @@
+[project]
+name = "hektor-wakeword-record"
+version = "0.1.0"
+description = "Wake-слово робота: бот-записувач вух, перезапис кліпів через динамік, оцінка моделі"
+requires-python = ">=3.13"
+dependencies = [
+    "pipecat-ai[runner,webrtc]>=1.12.0",
+    "openwakeword>=0.6.0",
+    "numpy",
+    "requests",
+    "python-dotenv",
+    "sounddevice>=0.5.6",
+    "mlx-whisper>=0.4.3",
+    "pymicro-wakeword>=2.5.0",
+]
+
+[tool.uv]
+# Тільки Mac: інакше uv розв'язує залежності й для Linux, де openwakeword тягне tflite-runtime
+# без коліс для Python 3.13 і відкочується до старого 0.4 (див. pipecat-server/pyproject.toml).
+environments = ["sys_platform == 'darwin'"]

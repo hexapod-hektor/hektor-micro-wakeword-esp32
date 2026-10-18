@@ -1,0 +1,70 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1791363888.220128   11506 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+ 0/6664 7s
+ 1000/6664 23s
+ 2000/6664 37s
+ 3000/6664 50s
+ 4000/6664 64s
+ 5000/6664 79s
+ 6000/6664 93s
+Failed to allocate temp memory. Requested: 4064, available 1712, missing: 2352
+Failed to allocate memory for memory planning, 4064 bytes required
+Too many buffers (max is 18)
+Too many buffers (max is 38)
+Too many buffers (max is 48)
+Too many buffers (max is 52)
+Too many buffers (max is 55)
+Too many buffers (max is 56)
+
+model 85.3 KB; DiPCo 5.33 h; room 0.235 h
+
+--- sliding window 5 --- cutoffs [0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95, 0.97]
+DiPCo FA/h                        [42.551, 28.305, 19.307, 11.247, 7.311, 5.061, 2.437, 1.312]
+room FA/h                         [4.257, 4.257, 4.257, 0.0, 0.0, 0.0, 0.0, 0.0]
+recall ALL                 n=4518 [0.7678, 0.7291, 0.6892, 0.637, 0.5992, 0.5571, 0.4971, 0.4628]
+recall aug-tempo           n= 978 [0.8947, 0.8773, 0.8569, 0.817, 0.7975, 0.7751, 0.7331, 0.6943]
+recall firered             n= 355 [0.6423, 0.6028, 0.5718, 0.5493, 0.5324, 0.5099, 0.4789, 0.4676]
+recall kind:cmd            n=1364 [0.4751, 0.4164, 0.3622, 0.2867, 0.2529, 0.2031, 0.132, 0.1012]
+recall kind:hektor         n=1561 [0.8264, 0.7726, 0.713, 0.64, 0.5663, 0.501, 0.4074, 0.3491]
+recall kind:hektore        n=1570 [0.965, 0.9592, 0.9516, 0.9395, 0.9338, 0.9223, 0.9057, 0.893]
+recall live                n=  22 [0.7273, 0.6364, 0.5909, 0.5909, 0.5455, 0.4545, 0.3636, 0.2727]
+recall live+cmd            n=  23 [0.6957, 0.6087, 0.5652, 0.5652, 0.5217, 0.4348, 0.3478, 0.2609]
+recall live-cmd            n=   1 [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+recall piper               n=3000 [0.7427, 0.6977, 0.6523, 0.592, 0.5467, 0.501, 0.434, 0.399]
+recall robot               n=   2 [0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.0, 0.0]
+recall tts                 n= 160 [0.7562, 0.7125, 0.6375, 0.5875, 0.5312, 0.4062, 0.3063, 0.2687]
+neg-test FA ALL            n=2146 [0.3882, 0.3504, 0.3127, 0.2717, 0.2381, 0.2008, 0.151, 0.1193]
+neg-test FA other          n=  87 [0.3908, 0.3678, 0.3333, 0.2989, 0.2644, 0.2529, 0.1839, 0.1724]
+neg-test FA piper          n=1800 [0.4233, 0.3856, 0.3461, 0.3022, 0.2667, 0.2239, 0.1694, 0.1328]
+neg-test FA robot          n=  11 [0.2727, 0.2727, 0.1818, 0.0, 0.0, 0.0, 0.0, 0.0]
+neg-test FA sim:hektar     n=  71 [0.338, 0.2676, 0.2254, 0.1831, 0.0986, 0.0704, 0.0282, 0.0282]
+neg-test FA tts            n= 248 [0.1371, 0.0927, 0.0685, 0.0524, 0.0323, 0.0242, 0.0121, 0.0081]
+
+--- sliding window 10 --- cutoffs [0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95, 0.97]
+DiPCo FA/h                        [21.369, 11.06, 7.498, 3.749, 2.249, 1.5, 0.375, 0.0]
+room FA/h                         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+recall ALL                 n=4518 [0.6928, 0.6368, 0.5786, 0.5104, 0.4774, 0.4378, 0.3915, 0.3628]
+recall aug-tempo           n= 978 [0.8548, 0.8119, 0.7812, 0.7382, 0.7055, 0.6564, 0.5808, 0.5399]
+recall firered             n= 355 [0.5803, 0.5606, 0.5296, 0.4986, 0.4873, 0.462, 0.431, 0.4113]
+recall kind:cmd            n=1364 [0.3732, 0.2999, 0.2331, 0.1591, 0.121, 0.0887, 0.0557, 0.0433]
+recall kind:hektor         n=1561 [0.7156, 0.6284, 0.5279, 0.4164, 0.3632, 0.2985, 0.2281, 0.1935]
+recall kind:hektore        n=1570 [0.9497, 0.9389, 0.9306, 0.9115, 0.9025, 0.8815, 0.8478, 0.8102]
+recall live                n=  22 [0.5909, 0.5909, 0.5, 0.3636, 0.3636, 0.3182, 0.2727, 0.2727]
+recall live+cmd            n=  23 [0.5652, 0.5652, 0.4783, 0.3478, 0.3478, 0.3043, 0.2609, 0.2609]
+recall live-cmd            n=   1 [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+recall piper               n=3000 [0.656, 0.592, 0.5223, 0.4477, 0.413, 0.3763, 0.338, 0.3127]
+recall robot               n=   2 [0.5, 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0]
+recall tts                 n= 160 [0.6625, 0.5875, 0.5188, 0.35, 0.2938, 0.225, 0.175, 0.1313]
+neg-test FA ALL            n=2146 [0.3173, 0.2749, 0.2251, 0.1687, 0.1417, 0.1114, 0.0764, 0.0601]
+neg-test FA other          n=  87 [0.3333, 0.2989, 0.2759, 0.2414, 0.1839, 0.1724, 0.1149, 0.092]
+neg-test FA piper          n=1800 [0.3528, 0.3072, 0.2511, 0.1878, 0.1583, 0.1233, 0.085, 0.0667]
+neg-test FA robot          n=  11 [0.0909, 0.0909, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+neg-test FA sim:hektar     n=  71 [0.2254, 0.1831, 0.0845, 0.0563, 0.0141, 0.0141, 0.0141, 0.0141]
+neg-test FA tts            n= 248 [0.0645, 0.0403, 0.0282, 0.0121, 0.0121, 0.0081, 0.004, 0.004]
+
+recommended: {'sliding_window_size': 5, 'probability_cutoff': 0.97, 'dipco_limit': 2.0, 'room_limit': 0.5}
+checks: {'live>=0.8_max_cutoff_w5': None, 'dipco_faph_there': None, 'v3b_needed': False, 'live_cmd_recall_at_recommended': 0.0, 'live_cmd_below_50': True}
+tech: {"macs_per_inference": 39136, "ops": {"CALL_ONCE": 1, "VAR_HANDLE": 6, "RESHAPE": 6, "READ_VARIABLE": 6, "CONCATENATION": 8, "STRIDED_SLICE": 10, "ASSIGN_VARIABLE": 6, "CONV_2D": 9, "DEPTHWISE_CONV_2D": 6, "ADD": 4, "SPLIT_V": 2, "FULLY_CONNECTED": 1, "LOGISTIC": 1, "QUANTIZE": 1}, "tflm_arena_min_bytes": 30559, "input": {"shape": [1, 3, 40], "dtype": "int8", "scale": 0.10196078568696976, "zero_point": -128}, "output": {"shape": [1, 1], "dtype": "uint8", "scale": 0.00390625, "zero_point": 0}, "host_cpu_us_per_inference": 180.8}
+EVAL_DONE

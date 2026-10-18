@@ -1,0 +1,11 @@
+# Clip generation and cleaning (macOS, Python 3.12/3.13). Install only what you need.
+numpy
+scipy
+python-dotenv
+requests
+audiomentations>=0.43        # aug_tempo.py (WSOLA time-stretch)
+google-genai                 # gen_gemini.py  (GOOGLE_API_KEY)
+piper-tts                    # gen_piper.py   (voices in data/voices/)
+mlx-whisper                  # import_cartesia.py, cut_speech.py, make_refs.py, whisper_check.py (Apple Silicon)
+# gen_firered.py runs inside a FireRedTTS3 checkout (torch, torchaudio, soundfile) — see its docstring.
+# gen_negative_cartesia.py needs only numpy + requests and CARTESIA_API_KEY.

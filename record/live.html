@@ -1,0 +1,78 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Гектор: живий тест</title>
+<style>
+  body{font:15px -apple-system,system-ui;margin:24px;background:#111;color:#eee}
+  .row{display:flex;align-items:center;gap:12px;margin:8px 0}
+  .name{width:180px;text-align:right;font-family:ui-monospace,monospace}
+  .bar{flex:1;height:28px;background:#222;border-radius:4px;position:relative;overflow:hidden}
+  .fill{height:100%;width:0;background:#3a7;transition:width .08s}
+  .thr{position:absolute;top:0;bottom:0;width:2px;background:#f55}
+  .val{width:60px;font-family:ui-monospace,monospace}
+  .hit{color:#fc3}
+  #log{font-family:ui-monospace,monospace;font-size:13px;white-space:pre;max-height:40vh;overflow:auto;background:#181818;padding:8px;border-radius:4px}
+  #status{color:#9ab}
+  #verd{border-collapse:collapse;font-family:ui-monospace,monospace;font-size:14px;margin:8px 0}
+  #verd td,#verd th{padding:3px 10px;border-bottom:1px solid #333;text-align:center}
+  #verd td:first-child,#verd th:first-child{text-align:left;color:#9ab}
+  .yes{color:#5e5;font-weight:600} .no{color:#777}
+</style>
+<h2>Гектор: що чують ворота</h2>
+<div id="status">підключаюсь…</div>
+<div class="row"><div class="name">рівень</div><div class="bar"><div class="fill" id="lvl" style="background:#58c"></div></div><div class="val" id="lvlv"></div></div>
+<div id="bars"></div>
+<div class="row"><div class="name">поріг</div><input id="thr" type="range" min="0.05" max="0.9" step="0.05" value="0.3"><span id="thrv">0.30</span></div>
+<div class="row" style="margin-top:16px">
+  <div class="name">запис</div>
+  <input id="spk" value="martyn" size="8" title="хто говорить"> <input id="dist" value="2" size="3" title="м"> м
+  <input id="pos" value="front" size="6" title="позиція">
+  <label><input type="checkbox" id="auto" checked onchange="setauto()"> автозапис</label>
+  <select id="force" onchange="setauto()" title="як мітити збережене">
+    <option value="">Whisper вирішує</option>
+    <option value="hektor">усе — «Гектор»</option>
+    <option value="hektore">усе — «Гекторе»</option>
+    <option value="other">усе — НЕ слово</option>
+  </select> <span id="pend"></span>
+  <button onclick="mark('positive','hektor','Гектор')">це був «Гектор»</button>
+  <button onclick="mark('positive','hektore','Гекторе')">це був «Гекторе»</button>
+  <button onclick="mark('negative','other','інше')">це було НЕ слово</button>
+  <span id="markv"></span>
+</div>
+<table id="verd"></table>
+<div id="autolog" style="font-family:ui-monospace,monospace;font-size:13px;white-space:pre;background:#161a16;padding:8px;border-radius:4px;margin:8px 0;min-height:60px"></div>
+<div id="log"></div>
+<script>
+async function setauto() {
+  await fetch('/auto', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({auto: auto.checked, force: force.value, speaker: spk.value, distance_m: +dist.value, position: pos.value})});
+}
+['spk','dist','pos'].forEach(id => document.addEventListener('DOMContentLoaded', () => document.getElementById(id).onchange = setauto));
+async function mark(set, phrase, text) {
+  const r = await fetch('/mark', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({set, phrase, text, seconds: 2.5, speaker: spk.value, distance_m: +dist.value, position: pos.value})});
+  const d = await r.json(); markv.textContent = d.ok ? `збережено ${d.duration_s} с` : ('помилка: ' + d.error);
+}
+const thr = document.getElementById('thr'), thrv = document.getElementById('thrv'), log = document.getElementById('log');
+thr.oninput = () => { thrv.textContent = (+thr.value).toFixed(2); document.querySelectorAll('.thr').forEach(e => e.style.left = (thr.value*100)+'%'); };
+const bars = {}, peak = {}, lastHit = {};
+function mk(n){ const r=document.createElement('div'); r.className='row';
+  r.innerHTML=`<div class="name">${n}</div><div class="bar"><div class="fill"></div><div class="thr" style="left:${thr.value*100}%"></div></div><div class="val"></div>`;
+  document.getElementById('bars').appendChild(r); bars[n]={fill:r.querySelector('.fill'),val:r.querySelector('.val'),name:r.querySelector('.name')}; peak[n]=0; lastHit[n]=0; }
+let n=0;
+const es = new EventSource('/events');
+es.onmessage = e => { const d = JSON.parse(e.data); n++;
+  document.getElementById('status').textContent = (d.connected ? 'плата підключена' : 'плата НЕ підключена') + ` · кадрів ${d.frames}`;
+  const lv = Math.max(0, Math.min(1, (d.level_db + 60) / 60)); document.getElementById('lvl').style.width = (lv*100)+'%'; document.getElementById('lvlv').textContent = d.level_db.toFixed(0)+' дБ';
+  document.getElementById('autolog').textContent = (d.log || []).join('\n'); document.getElementById('pend').textContent = d.pending ? `(розпізнаю ${d.pending}…)` : '';
+  if (d.verdicts) { const names = Object.keys(d.scores);
+    let html = '<tr><th>репліка</th>' + names.map(k => `<th>${k}<br><small>поріг ${(d.thr[k]||0).toFixed(2)} · ${d.hits[k]||0} з ${d.utterances}</small></th>`).join('') + '</tr>';
+    for (const v of d.verdicts) html += `<tr><td>#${v.n} ${v.t}</td>` + names.map(k => `<td class="${v.ok[k]?'yes':'no'}">${v.ok[k]?'✓':'✗'} ${(v.peaks[k]??0).toFixed(2)}</td>`).join('') + '</tr>';
+    document.getElementById('verd').innerHTML = html; }
+  for (const [k, v] of Object.entries(d.scores)) { if (!bars[k]) mk(k);
+    bars[k].fill.style.width = (v*100)+'%'; bars[k].val.textContent = v.toFixed(2); peak[k] = Math.max(peak[k], v);
+    if (v >= +thr.value && d.t - lastHit[k] > 1.5) { lastHit[k] = d.t; const t = new Date().toLocaleTimeString();
+      log.textContent = `${t}  ${k.padEnd(16)} score ${v.toFixed(2)}\n` + log.textContent; bars[k].name.classList.add('hit'); setTimeout(()=>bars[k].name.classList.remove('hit'), 800); }
+  }
+  if (n % 10 === 0) { for (const k in peak) { bars[k].fill.style.background = peak[k] >= +thr.value ? '#fc3' : '#3a7'; peak[k] = 0; } }
+};
+</script>

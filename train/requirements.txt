@@ -1,0 +1,20 @@
+# Versions used for the v1–v3 runs (Google Colab, Tesla T4, Python 3.13.15/16, 6–7 Oct 2026). See TRAINING.uk.md.
+tensorflow==2.21.0
+keras==3.13.2
+numpy==2.1.3
+ai-edge-litert==2.2.0
+pymicro-features==2.0.2
+audiomentations==0.43.1
+mmap_ninja==0.9.0
+datasets==4.8.5
+huggingface_hub
+scipy
+pyyaml
+pyarrow
+soundfile
+# microWakeWord @ 4665173 (github.com/kahrendt/microWakeWord, "Pin dependencies (#98)", 2026-07-06):
+#   pip install git+https://github.com/kahrendt/microWakeWord@4665173
+# audio-metadata from the fork used by the mWW notebook:
+#   pip install git+https://github.com/whatsnowplaying/audio-metadata@d4ebb23
+# tflite-micro (optional): only for the tensor-arena probe in eval/evaluate.py (tech_info).
+# System tools: ffmpeg, wget, unzip, tar.

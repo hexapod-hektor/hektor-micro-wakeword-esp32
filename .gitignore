@@ -1,0 +1,46 @@
+# audio and datasets are never committed (see README: data is private / CC BY-NC)
+*.wav
+*.mp3
+*.flac
+*.zip
+*.tar
+data/positive/
+data/negative/
+data/robot/
+data/background/
+data/inbox/
+data/ref/
+data/voices/
+data/manifest.json
+data/manifest.*.json
+!data/manifest.example.json
+train/dataset*/
+work/
+
+# models, features, checkpoints
+*.npy
+*.mmap
+*.ckpt
+*.h5
+*.onnx
+*.onnx.data
+*.tflite
+*.pb
+record/models/
+
+# logs and per-file dumps
+*.log
+!eval/results/**/*.log
+eval_per_file.json
+
+# secrets and environments
+.env
+.env.*
+*.key
+.venv/
+__pycache__/
+*.pyc
+.python-version
+uv.lock
+.DS_Store
+/tmp/
