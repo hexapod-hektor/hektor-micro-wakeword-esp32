@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/hektor-logo.png" alt="HEKTOR" width="560"></p>
+
 # hektor-micro-wakeword-esp32
 
 **[English →](README.md)**
