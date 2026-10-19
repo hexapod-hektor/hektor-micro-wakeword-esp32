@@ -1,4 +1,4 @@
-# hektor-wakeword
+# hektor-micro-wakeword-esp32
 
 **[English →](README.md)**
 
@@ -32,6 +32,46 @@
 | 0.95 | 86.4 % | 0.0 |
 
 Модель: MixedNet, потокова, int8. 87 376 байтів у flash, мінімальна tensor arena 30.6 КБ (у manifest 33.8 КБ), ≈39 тис. MAC на крок 30 мс, 87 мкс на інференцію на x86-хості. Навантаження на ESP32-S3 оцінене з кількості MAC, на платі ще не заміряне.
+
+## Як використати модель
+
+Той самий файл моделі працює у двох місцях.
+
+### 1. У голосовому боті на Pipecat (перевірено)
+
+Так робот працює зараз: ESP32-S3 шле мікрофон по WebRTC, а модель крутиться на комп'ютері перед STT.
+Усі цифри вище виміряні саме так. [`examples/pipecat/wake_gate.py`](examples/pipecat/wake_gate.py) — це
+`FrameProcessor`, який пропускає звук далі лише після «Гектор», тримає 300 мс до слова, щоб не обрізати
+команду, і закривається після 20 с тиші.
+
+```python
+from wake_gate import WakeGate, load_hektor   # pip install pipecat-ai pymicro-wakeword huggingface_hub
+
+pipeline = Pipeline([
+    transport.input(),             # 16 кГц моно: PipelineParams(audio_in_sample_rate=16000)
+    WakeGate(load_hektor()),       # завантажує модель з Hugging Face, тег v1.0
+    stt,
+    context_aggregator.user(),
+    llm,
+    tts,
+    transport.output(),
+    context_aggregator.assistant(),
+])
+```
+
+### 2. На самому ESP32 (ще не перевірено)
+
+Модель — int8 потокова мережа TFLite Micro, зроблена під чип, а її `manifest.json` у форматі ESPHome
+`micro_wake_word`:
+
+```yaml
+micro_wake_word:
+  models:
+    - model: https://huggingface.co/MartynU/hektor-micro-wakeword-esp32/resolve/main/manifest.json
+```
+
+На чипі автор її ще не запускав: пам'ять — з моделі, обчислення оцінені за кількістю MAC.
+Приклад для ESP-IDF із заміром часу на ESP32-S3 — у v1.1.
 
 ## Пайплайн
 

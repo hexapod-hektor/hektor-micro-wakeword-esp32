@@ -1,4 +1,4 @@
-# hektor-wakeword
+# hektor-micro-wakeword-esp32
 
 **[Українською →](README.uk.md)**
 
@@ -32,6 +32,46 @@ Cutoff trade-off for v3 (window 5):
 | 0.95 | 86.4 % | 0.0 |
 
 Model: MixedNet, streaming, int8. 87 376 bytes of flash, 30.6 KB minimum tensor arena (33.8 KB in the manifest), about 39 k MAC per 30 ms step, 87 µs per inference on an x86 host. Compute on the ESP32-S3 is estimated from the MAC count, not yet measured on the chip.
+
+## Using the model
+
+The same model file works in two places.
+
+### 1. In a Pipecat voice bot (tested)
+
+This is how the robot runs today: the ESP32-S3 streams its microphone over WebRTC and the model runs on the host,
+in front of STT. All numbers above were measured on this path.
+[`examples/pipecat/wake_gate.py`](examples/pipecat/wake_gate.py) is a `FrameProcessor` that lets audio through
+only after «Гектор», keeps 300 ms before the word so the command is not cut, and closes after 20 s of silence.
+
+```python
+from wake_gate import WakeGate, load_hektor   # pip install pipecat-ai pymicro-wakeword huggingface_hub
+
+pipeline = Pipeline([
+    transport.input(),             # 16 kHz mono: PipelineParams(audio_in_sample_rate=16000)
+    WakeGate(load_hektor()),       # downloads the model from Hugging Face, tag v1.0
+    stt,
+    context_aggregator.user(),
+    llm,
+    tts,
+    transport.output(),
+    context_aggregator.assistant(),
+])
+```
+
+### 2. On the ESP32 itself (not yet verified)
+
+The model is an int8 streaming TFLite Micro network built for the chip, and its `manifest.json` follows the
+ESPHome `micro_wake_word` format:
+
+```yaml
+micro_wake_word:
+  models:
+    - model: https://huggingface.co/MartynU/hektor-micro-wakeword-esp32/resolve/main/manifest.json
+```
+
+The author has not run it on the chip yet: memory comes from the model, compute is estimated from the MAC count.
+An on-device example for ESP-IDF with timing measured on an ESP32-S3 is planned for v1.1.
 
 ## Pipeline
 
